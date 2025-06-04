@@ -1,0 +1,15 @@
+!pip install diffusers transformers accelerate
+from diffusers import StableDiffusionPipeline
+import torch
+
+# Load model WITHOUT using revision="fp16"
+pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
+
+# Try to use GPU if available
+if torch.cuda.is_available():
+    pipe = pipe.to("cuda")
+prompt = "swan in the lake "
+image = pipe(prompt).images[0]
+
+from IPython.display import display
+display(image)
